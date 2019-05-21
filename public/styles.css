@@ -1,0 +1,40 @@
+ body {
+        background: rgb(64, 73, 63);
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      }
+      header {
+        background: black;
+        padding: 10px 20px;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+      }
+      li {
+        display: inline-block;
+        color: white;
+        margin-right: 20px;
+      }
+      h1 {
+        color:rgb(173, 64, 1);
+      }
+
+      section {
+        padding:50px;
+        background: gray;
+        color: black;
+        display: flex;
+        flex-direction: row;
+      }
+      div {
+        background: white;
+        width: 100px;
+        margin: auto;
+
+      }
+      button {
+        background: gray;
+        border: ridge;
+        color: white;
+      }

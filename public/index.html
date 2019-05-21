@@ -4,12 +4,40 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
+    <link rel="stylesheet" href="styles.css"> 
   </head>
   <body>
-    <h1>Garden Esp2866 Project</h1>
-    <p>Work in progress</p>
+
+    <header>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="data.html">Data</a></li>
+        </ul>
+      </nav>
+      <h1>Garden Esp2866 Project</h1>
+    </header>
+
+    <section>
+      <div>a</div>
+      <div>b</div>
+      <div>c</div>
+
+    </section>
+
     <button type="button" onclick="myFunction()">Test function</button>
+    
+    <footer>
+      <p id="date"></p>
+    </footer>
+
     <script>
+      n =  new Date();
+      y = n.getFullYear();
+      m = n.getMonth() + 1;
+      d = n.getDate();
+      document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+
       function myFunction(){
         var xhr = new XMLHttpRequest();
         xhr.open('GET', "https://garden-alpha.firebaseapp.com/hello", true);
