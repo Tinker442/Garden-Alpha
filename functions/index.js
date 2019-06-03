@@ -8,5 +8,5 @@ const functions = require('firebase-functions');
 // });
 
 exports.hello = functions.https.onRequest((req, res) => {
-  res.status(200).send(`"hello world text"`);
+  res.status(200).send(req.body);
 });

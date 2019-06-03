@@ -12,7 +12,8 @@ const char WiFiPSK[] = "6BULACC393199";
 /////////////////////
 const int LED_PIN = LED_BUILTIN; // Thing's onboard, green LED
 const int ANALOG_PIN = A0; // The only analog pin on the Thing
-const int THERMAL_PIN = D1; // Digital pin to be read
+const int MOIST_PIN = D2; // Digital pin to be read
+const int THERM_PIN = D1; // Digital pin to be read
 const int PHOTO_PIN = D0; // Digital pin to be read
 
 WiFiServer server(80);
@@ -25,7 +26,7 @@ void setup()
   setupMDNS();
 }
 
-void loop() 
+void test_server() 
 {
   // Check if a client has connected
   WiFiClient client = server.available();
@@ -50,7 +51,7 @@ void loop()
    else if (req.indexOf("/read/photo") != -1)
     val = 3; // Will print pin reads
   // Otherwise request will be invalid. We'll say as much in HTML
-Serial.println(val);
+  Serial.println(val);
   // Set GPIO5 according to the request
 
   client.flush();
@@ -70,12 +71,12 @@ Serial.println(val);
   }
   else if (val == 2)
   { 
-    digitalWrite(THERMAL_PIN, HIGH);
+    digitalWrite(THERM_PIN, HIGH);
     delay(50);
     s += "Temp Pin = ";
     s += String(analogRead(ANALOG_PIN)*3.3/1024);
     s += "<br>"; // Go to the next line.
-    digitalWrite(THERMAL_PIN, LOW);
+    digitalWrite(THERM_PIN, LOW);
   }
   else if (val == 3)
   { 
@@ -153,11 +154,45 @@ void setupMDNS()
 
 void initHardware()
 {
-  Serial.begin(9600);
-  pinMode(THERMAL_PIN, OUTPUT);
+  Serial.begin(115200);
+  pinMode(THERM_PIN, OUTPUT);
   pinMode(PHOTO_PIN, OUTPUT);
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, HIGH);
+  pinMode(MOIST_PIN, OUTPUT);
   // Don't need to set ANALOG_PIN as input, 
   // that's all it can be.
+}
+String create_package(){
+
+  String s = "[{";
+
+  digitalWrite(THERM_PIN, HIGH);
+  delay(50);
+  s += "\"therm\":";
+  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  s += ","; 
+  digitalWrite(THERM_PIN, LOW);
+  delay(50);
+  
+  digitalWrite(PHOTO_PIN, HIGH);
+  delay(50);
+  s += "\"photo\":";
+  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  s += ","; 
+  digitalWrite(PHOTO_PIN, LOW);
+  delay(50);
+  
+  digitalWrite(MOIST_PIN, HIGH);
+  delay(50);
+  s += "\"moist\":";
+  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  digitalWrite(MOIST_PIN, LOW);
+
+
+  s+="}]";
+  return s;
+}
+void loop(){
+  String package = create_package();
+    Serial.println(package);
+    delay(1000);
 }
