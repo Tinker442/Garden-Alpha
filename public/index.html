@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
-    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="style.css"> 
   </head>
   <body>
 
@@ -19,14 +19,11 @@
     </header>
 
     <section>
-      <div>a</div>
-      <div>b</div>
-      <div>c</div>
-
+	yeet
     </section>
 
     <button type="button" onclick="myFunction()">Test function</button>
-    
+
     <footer>
       <p id="date"></p>
     </footer>
@@ -37,14 +34,13 @@
       m = n.getMonth() + 1;
       d = n.getDate();
       document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-
       function myFunction(){
         var xhr = new XMLHttpRequest();
         xhr.open('GET', "https://garden-alpha.firebaseapp.com/hello", true);
         xhr.send();
-        
+
         xhr.onreadystatechange = processRequest;
-        
+
         function processRequest(e) {
           if (xhr.readyState == 4 && xhr.status == 200) {
             var response = xhr.responseText;

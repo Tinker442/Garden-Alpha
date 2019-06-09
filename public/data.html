@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
-    <link rel="stylesheet" href="styles.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
 
@@ -19,22 +23,13 @@
     </header>
 
     <section>
-      <div>d</div>
-      <div>e</div>
-      <div>f</div>
-
+      <div id="temp_chart"></div>
+      <div id="table_div"></div>
     </section>
 
     <footer>
       <p id="date"></p>
     </footer>
 
-    <script>
-      n =  new Date();
-      y = n.getFullYear();
-      m = n.getMonth() + 1;
-      d = n.getDate();
-      document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-    </script>
   </body>
 </html>
