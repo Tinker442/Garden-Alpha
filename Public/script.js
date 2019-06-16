@@ -20,7 +20,7 @@ const db = firebase.firestore();
 db.collection("chipLog").get().then(function(snapshot){//Then because async JS will load without data
   snapshot.docs.forEach(doc =>{
     let dataHold = doc.data();
-    dataHold.id = JSON.parse(doc.id);//adds ID to array parses it into number, the stupid firebase sets the id as string, i think it's to make it more hashable but I dont know, regardless, there is no option to change it
+    dataHold.date = (dataHold.date).toDate();//converts firestore's timestamp to date format (I know right?)
     database.push(dataHold);//push object into database array
   });
   drawChartAndTable(database);//call function to draw tables and charts after data has been received
@@ -37,16 +37,16 @@ function drawChartAndTable(database){//format reminder {brightness: 98, date: "[
 
   function drawLineColors() {
     var data = new google.visualization.DataTable();
-    data.addColumn('number', 'Days Passed');
+    data.addColumn('date', 'Date');
     data.addColumn('number', 'Soil Temp');
     data.addColumn({type: 'string', role: 'tooltip'});
   
     let holdRows = [];
     for(let i=0;i<database.length;i++){//creates rows
       holdRows.push([
-        database[i].id,
+        database[i].date,
         database[i].temperature,
-        "Days Passed: "+database[i].id+" Days\nSoil Temperature: "+database[i].temperature+" F°"
+        "Date: "+database[i].date+"\nSoil Temperature: "+database[i].temperature+" F°"
       ]);
     };
 
@@ -54,7 +54,7 @@ function drawChartAndTable(database){//format reminder {brightness: 98, date: "[
 
     var options = {
       hAxis: {
-        title: 'Time(Days)'
+        title: 'Time(Date)'
       },
       vAxis: {
         title: 'Temperature(F°)'
@@ -76,8 +76,8 @@ function drawChartAndTable(database){//format reminder {brightness: 98, date: "[
 
   function drawTable() {
     var data = new google.visualization.DataTable();
-    data.addColumn('number', 'Id');
-    data.addColumn('string', 'Date');
+    data.addColumn('date', 'Date');
+    data.addColumn('string', 'Hour');
     data.addColumn('number', 'Brightness');
     data.addColumn('number', 'Humidity');
     data.addColumn('number', 'Temperature');
@@ -85,7 +85,7 @@ function drawChartAndTable(database){//format reminder {brightness: 98, date: "[
     let holdRows = [];//this variable is local, don't worry about duplicates, don't use VAR though, that's global
     for(let i=0;i<database.length;i++){//creates rows
       holdRows.push([
-        database[i].id, database[i].date, database[i].brightness, 
+        database[i].date, database[i].date.toTimeString().substr(0,5), database[i].brightness, 
         database[i].humidity,database[i].temperature
       ]);
     };
