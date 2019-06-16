@@ -1,5 +1,5 @@
 var database = [];//GLOBAL VARIABLE FOR THE INCOMING DATA
-//FORMAT {brightness: 98, date: "[6,1,2019,"17:15"]", humidity: 79, temperature: 100}
+//FORMAT {brightness: 98, date: n(timestamp), humidity: 79, temperature: 100}
 
 //===========DATABASE==================================================/
 //Firebase configuration
