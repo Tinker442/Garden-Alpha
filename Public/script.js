@@ -77,7 +77,7 @@ function drawChartAndTable(database){
   function drawTable() {
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Date');
-    data.addColumn('string', 'Hour');
+    data.addColumn('string', 'Time');
     data.addColumn('number', 'Brightness');
     data.addColumn('number', 'Humidity');
     data.addColumn('number', 'Temperature');
