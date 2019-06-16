@@ -1,5 +1,5 @@
 var database = [];//GLOBAL VARIABLE FOR THE INCOMING DATA
-//FORMAT {brightness: 98, date: "[6,1,2019,"17:15"]", humidity: 79, temperature: 100, id: "1"}
+//FORMAT {brightness: 98, date: "[6,1,2019,"17:15"]", humidity: 79, temperature: 100}
 
 //===========DATABASE==================================================/
 //Firebase configuration
@@ -28,7 +28,7 @@ db.collection("chipLog").get().then(function(snapshot){//Then because async JS w
 //===========DATABASE==================================================/
 
 //Calls chart and table's draw functions after data has been loaded
-function drawChartAndTable(database){//format reminder {brightness: 98, date: "[6,1,2019,"17:15"]", humidity: 79, temperature: 100, id: "1"}
+function drawChartAndTable(database){
 
   //================LINE CHART==========================================/
   google.charts.load('current', {packages: ['corechart', 'line']});
