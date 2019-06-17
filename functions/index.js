@@ -6,7 +6,7 @@ let db = admin.firestore();
 
 
 exports.hello = functions.https.onRequest((req, res) => {
-  const id = '4'; //temporary id. In future, ID's should be based on the date
+  const id = JSON.stringify(new Date()); //temporary id. In future, ID's should be based on the date
   var object;
   var data = {};    
   try{ 
