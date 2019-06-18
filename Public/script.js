@@ -116,7 +116,7 @@ function drawChartAndTable(database){
   }
   //================LINE CHART HUMIDITY==========================================/
 
-    //================LINE CHART HUMIDITY==========================================/
+    //================LINE CHART BRIGHTNESS==========================================/
     google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(brightnessChart);
     window.onresize = brightnessChart;//Runs the function everytime window is resized, responsive (could be done diferently so it doesn't have to redraw the whole chart but as you can see it took me one line)
@@ -156,7 +156,7 @@ function drawChartAndTable(database){
       var chart = new google.visualization.LineChart(document.getElementById('brigh_chart'));
       chart.draw(data, options);
     }
-    //================LINE CHART HUMIDITY==========================================/
+    //================LINE CHART BRIGHTNESS==========================================/
 
   //================DATA TABLE==========================================/
   google.charts.load('current', {'packages':['table']});
