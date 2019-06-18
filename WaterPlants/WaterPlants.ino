@@ -39,7 +39,7 @@ void test() {
   client->setInsecure();
   HTTPClient https;
 
-  if (https.begin(*client, "https://garden-alpha.firebaseapp.com/hello")) {  // HTTPS
+  if (https.begin(*client, "http://httpbin.org/post")) {  // HTTPS //"https://garden-alpha.firebaseapp.com/hello"
     Serial.println("[HTTPS] POST...");
     https.addHeader("Content-Type", "text/plain");
     
@@ -76,12 +76,12 @@ void initHardware()
 }
 String create_package(){
 
-  String s = "[{";
+  String s = "{";
 
   digitalWrite(THERM_PIN, HIGH);
   delay(50);
   s += "\"therm\":";
-  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  s += String(get_resistance());
   s += ","; 
   digitalWrite(THERM_PIN, LOW);
   delay(50);
@@ -89,7 +89,7 @@ String create_package(){
   digitalWrite(PHOTO_PIN, HIGH);
   delay(50);
   s += "\"photo\":";
-  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  s += String(get_linear_photo(get_resistance(), 60.0,1.0));
   s += ","; 
   digitalWrite(PHOTO_PIN, LOW);
   delay(50);
@@ -97,12 +97,34 @@ String create_package(){
   digitalWrite(MOIST_PIN, HIGH);
   delay(50);
   s += "\"moist\":";
-  s += String((analogRead(ANALOG_PIN)*1.0/1024),4);
+  s += String(get_resistance());
   digitalWrite(MOIST_PIN, LOW);
 
 
-  s+="}]";
+  s+="}";
   return s;
+}
+
+//returns resistance of sensor in units of k-ohm
+float get_resistance(){
+  
+  return 10.0*(1024.0/analogRead(ANALOG_PIN)-1);
+  
+}
+
+//max and min resistance are calibration points. They are values we see at very bright and very dark
+float get_linear_photo(float photo_resistance, float max_resistance, float min_resistance){
+  float b = log(max_resistance);
+  float m = log(min_resistance/max_resistance)/100;
+  
+  return (log(photo_resistance)-b)/m;
+}
+
+float get_linear_therm(float therm_resistance, float ref1, float temp1, float ref2, float temp2){
+  float m = (temp2 - temp1) / (ref2 - ref1);
+  float b = temp2 - m*ref1;
+  
+  return m*therm_resistance + b;
 }
 
 void loop() {
