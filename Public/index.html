@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
+    <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="style.css"> 
   </head>
   <body>
@@ -13,41 +14,18 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="data.html">Data</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
         </ul>
       </nav>
       <h1>Garden Esp2866 Project</h1>
     </header>
 
     <section>
-	yeet
+      <img src="scheme.png" alt="scheme">
     </section>
-
-    <button type="button" onclick="myFunction()">Test function</button>
-
     <footer>
       <p id="date"></p>
     </footer>
 
-    <script>
-      n =  new Date();
-      y = n.getFullYear();
-      m = n.getMonth() + 1;
-      d = n.getDate();
-      document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
-      function myFunction(){
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', "https://garden-alpha.firebaseapp.com/hello", true);
-        xhr.send();
-
-        xhr.onreadystatechange = processRequest;
-
-        function processRequest(e) {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-            var response = xhr.responseText;
-            alert(response);
-          }
-        }
-      }
-    </script>
   </body>
 </html>
