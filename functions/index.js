@@ -34,3 +34,7 @@ exports.hello = functions.https.onRequest((req, res) => {
   db.collection("chipLog").doc(id).set(data);//overwrites doc with new info. In order to merge, add option ', {merge: true}' in set function 
   res.status(200).send(req.body);
 });
+
+exports.schedule = functions.https.onRequest((req, res) => {
+  console.log(req.toString());
+});
