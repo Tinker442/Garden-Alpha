@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,9 +20,60 @@
       </nav>
       <h1>Scheduling Options</h1>
     </header>
-
+    <iframe width="0" height="0" border="0" name="dummyframe" id="preventformredierct"></iframe>
     <section>
-      This is where the form will go
+        <form name="scheduleform" action="https://us-central1-garden-alpha.cloudfunctions.net/schedule" method="post" target="dummyframe">
+          <label for="interval">Interval:</label>
+          <select name="interval" id="interval" onchange="hideweeklyfieldset()">
+              <option value="monthly">Monthly</option>
+              <option value="weekly" selected>Weekly</option>
+              <option value="daily">Daily</option>
+            </select>
+          <br>
+          <br>
+          <fieldset id="weeklyfieldset">
+              <legend>Weekly Schedule:</legend>
+                  <input type="checkbox" name="saturday" value="sat" id="sat">Saturday 
+                  <input type="checkbox" name="monday" value="mon" id="mon">Monday
+                  <input type="checkbox" name="tuesday" value="tue" id="tue">Tuesday
+                  <input type="checkbox" name="wednesday" value="wed" id="wed">Wednesday
+                  <input type="checkbox" name="thursday" value="thu" id="thu">Thursday
+                  <input type="checkbox" name="friday" value="fri" id="fri">Friday
+                  <input type="checkbox" name="sunday" value="sun" id="sun">Sunday
+          </fieldset>    
+              <br>
+              <br>
+              <label for="time">Time:</label>
+              <input type="time" name="time" value="06:00">
+          
+          <input type="submit" value="Save">
+          <input type="reset" value="Default">
+        </form>
+        <script>
+          function hideweeklyfieldset(){
+
+            if(document.getElementById("interval").value != "weekly"){
+              document.getElementById("sat").setAttribute("disabled","1");
+              document.getElementById("mon").setAttribute("disabled","1");
+              document.getElementById("tue").setAttribute("disabled","1");
+              document.getElementById("wed").setAttribute("disabled","1");
+              document.getElementById("thu").setAttribute("disabled","1");
+              document.getElementById("fri").setAttribute("disabled","1");
+              document.getElementById("sun").setAttribute("disabled","1");
+            }
+
+            if(document.getElementById("interval").value == "weekly"){
+              document.getElementById("sat").removeAttribute("disabled");
+              document.getElementById("mon").removeAttribute("disabled");
+              document.getElementById("tue").removeAttribute("disabled");
+              document.getElementById("wed").removeAttribute("disabled");
+              document.getElementById("thu").removeAttribute("disabled");
+              document.getElementById("fri").removeAttribute("disabled");
+              document.getElementById("sun").removeAttribute("disabled");
+            }
+          }
+          
+        </script>
     </section>
     <footer>
       <p id="date"></p>
