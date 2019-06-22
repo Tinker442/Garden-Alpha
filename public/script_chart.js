@@ -1,5 +1,3 @@
-//Script for creating charts
-
 var database = [];//GLOBAL VARIABLE FOR THE INCOMING DATA
 //FORMAT {brightness: 98, date: n(timestamp), humidity: 79, temperature: 100}
 
@@ -37,8 +35,7 @@ function drawChartAndTable(database){
   //================LINE CHART TEMPERATURE==========================================/
   google.charts.load('current', {packages: ['corechart', 'line']});
   google.charts.setOnLoadCallback(temperatureChart);
-  window.onresize = temperatureChart;//Runs the function everytime window is resized, responsive (could be done diferently so it doesn't have to redraw the whole chart but as you can see it took me one line)
-
+  
   function temperatureChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('date', 'Date');
@@ -71,7 +68,7 @@ function drawChartAndTable(database){
       },
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('tempe_chart'));
+    let chart = new google.visualization.LineChart(document.getElementById('tempe_chart'));
     chart.draw(data, options);
   }
   //================LINE CHART TEMPERATURE==========================================/
@@ -79,7 +76,6 @@ function drawChartAndTable(database){
   //================LINE CHART HUMIDITY==========================================/
   google.charts.load('current', {packages: ['corechart', 'line']});
   google.charts.setOnLoadCallback(humidityChart);
-  window.onresize = humidityChart;//Runs the function everytime window is resized, responsive (could be done diferently so it doesn't have to redraw the whole chart but as you can see it took me one line)
 
   function humidityChart() {
     var data = new google.visualization.DataTable();
@@ -113,7 +109,7 @@ function drawChartAndTable(database){
       },
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById('humid_chart'));
+    let chart = new google.visualization.LineChart(document.getElementById('humid_chart'));
     chart.draw(data, options);
   }
   //================LINE CHART HUMIDITY==========================================/
@@ -121,8 +117,7 @@ function drawChartAndTable(database){
     //================LINE CHART BRIGHTNESS==========================================/
     google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(brightnessChart);
-    window.onresize = brightnessChart;//Runs the function everytime window is resized, responsive (could be done diferently so it doesn't have to redraw the whole chart but as you can see it took me one line)
-  
+    
     function brightnessChart() {
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'Date');
@@ -152,10 +147,10 @@ function drawChartAndTable(database){
         colors: ['#aaee00'],
         series: {
                 0: { lineWidth: 3 }
-        },
+        }
       };
   
-      var chart = new google.visualization.LineChart(document.getElementById('brigh_chart'));
+      let chart = new google.visualization.LineChart(document.getElementById('brigh_chart'));
       chart.draw(data, options);
     }
     //================LINE CHART BRIGHTNESS==========================================/
@@ -189,16 +184,19 @@ function drawChartAndTable(database){
     table.draw(data, {showRowNumber: false, width: '100%', height: '100%'});
   }
   //================DATA TABLE==========================================/
-  console.info(database);
 }
 
-function checkDataCorruption(obj){//checks the data for null/undefined values
+//Redraw charts after window resizing 
+window.onresize = function() {drawChartAndTable(database)};
+
+//Checks the data for null/undefined values and if the error field exists
+function checkDataCorruption(obj){
   let checkCounter = 0;
   checkCounter += obj.brightness==null||undefined?0:1;
   checkCounter += obj.humidity==null||undefined?0:1;
   checkCounter += obj.temperature==null||undefined?0:1;
   checkCounter += obj.date==null||undefined?0:1;
-  if (checkCounter < 4){
+  if (checkCounter < 4 || obj.error != undefined){
     return false;
   }else{
     return true;//if date is clean returns true
