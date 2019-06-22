@@ -197,6 +197,6 @@ function checkDataCorruption(obj){
   if (checkCounter < 4 || obj.error != undefined){
     return false;
   }else{
-    return true;//if date is clean returns true
+    return true;//if the data is clean returns true
   }
 }
