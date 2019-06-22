@@ -74,7 +74,6 @@ function drawChartAndTable(database){
   //================LINE CHART TEMPERATURE==========================================/
 
   //================LINE CHART HUMIDITY==========================================/
-  google.charts.load('current', {packages: ['corechart', 'line']});
   google.charts.setOnLoadCallback(humidityChart);
 
   function humidityChart() {
@@ -115,7 +114,6 @@ function drawChartAndTable(database){
   //================LINE CHART HUMIDITY==========================================/
 
     //================LINE CHART BRIGHTNESS==========================================/
-    google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(brightnessChart);
     
     function brightnessChart() {
