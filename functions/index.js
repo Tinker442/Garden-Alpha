@@ -5,10 +5,11 @@ admin.initializeApp(functions.config().firebase);
 let db = admin.firestore();
 
 
-exports.hello = functions.https.onRequest((req, res) => {
+exports.exchange = functions.https.onRequest((req, res) => {
   const id = JSON.stringify(new Date()); //temporary id. In future, ID's should be based on the date
   var object;
   var data = {};    
+
   try{ 
       //data format example: {"therm": 0.5,  "photo": 0.6, "moist": 0.5}
     object = JSON.parse(req.body); // parse request to json. needs error checking
@@ -36,5 +37,6 @@ exports.hello = functions.https.onRequest((req, res) => {
 });
 
 exports.schedule = functions.https.onRequest((req, res) => {
-  console.log(req.toString());
+  console.log(req.body);
+  res.status(200).send(req.body);
 });

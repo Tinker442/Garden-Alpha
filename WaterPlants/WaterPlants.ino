@@ -1,6 +1,7 @@
 /*
-    This sketch establishes a TCP connection to a "quote of the day" service.
-    It sends a "hello" message, and then prints received data.
+    This sketch establishes a TCP connection to a firebase exchange service.
+    It sends a sensor data as a string and expects back boolean (0 for dont
+    water, 1 for water, and aynthing else is interpretted as an error and ignored)
 */
 
 #ifndef STASSID
@@ -39,7 +40,7 @@ void test() {
   client->setInsecure();
   HTTPClient https;
 
-  if (https.begin(*client, "http://httpbin.org/post")) {  // HTTPS //"https://garden-alpha.firebaseapp.com/hello"
+  if (https.begin(*client, "http://httpbin.org/post")) {  // HTTPS //"https://us-central1-garden-alpha.cloudfunctions.net/exchange"
     Serial.println("[HTTPS] POST...");
     https.addHeader("Content-Type", "text/plain");
     
