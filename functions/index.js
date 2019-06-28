@@ -101,7 +101,11 @@ exports.schedule = functions.https.onRequest((req, res) => {
     sun: false,
     interval: req.body.interval,
     duration: req.body.duration,
-    time: req.body.time
+    time: req.body.time,
+    temperature: req.body.temperature,
+    lowMoisture: req.body.lowMoisture,
+    highMoisture: req.body.highMoisture,
+
   }
 
   //if the options arent selected, these will not be in the request.
