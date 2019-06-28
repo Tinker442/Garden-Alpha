@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
     <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="script_schedule.js"></script>
     <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="form_style.css"> 
   </head>
   <body>
 
@@ -21,53 +23,69 @@
       <h1>Scheduling Options</h1>
     </header>
     <iframe width="0" height="0" border="0" name="dummyframe" id="preventformredierct"></iframe>
-    <section>
-        <form name="scheduleform" action="https://us-central1-garden-alpha.cloudfunctions.net/schedule" method="post" target="dummyframe">
-          <label for="interval">Interval:</label>
-          <select name="interval" id="interval" onchange="hideweeklyfieldset()">
-              <option value="monthly">Monthly</option>
-              <option value="weekly" selected>Weekly</option>
-              <option value="daily">Daily</option>
-            </select>
-          <br>
-          <br>
-          <fieldset id="weeklyfieldset">
-              <legend>Weekly Schedule:</legend>
-                  <input class="week" type="checkbox" name="saturday" value="sat" id="sat">Saturday 
-                  <input class="week" type="checkbox" name="monday" value="mon" id="mon">Monday
-                  <input class="week" type="checkbox" name="tuesday" value="tue" id="tue">Tuesday
-                  <input class="week" type="checkbox" name="wednesday" value="wed" id="wed">Wednesday
-                  <input class="week" type="checkbox" name="thursday" value="thu" id="thu">Thursday
-                  <input class="week" type="checkbox" name="friday" value="fri" id="fri">Friday
-                  <input class="week" type="checkbox" name="sunday" value="sun" id="sun">Sunday
-          </fieldset>    
-              <br>
-              <label for="time">Time:</label>
-              <input type="time" name="time" value="06:00">
-              <br>
-              <br>
-              <label for="duration">Duration (minutes):</label>
-              <input type="number" id="duration" name="duration" value="5" min="1">
-          
-          <input type="submit" value="Save">
-          <input type="reset" value="Default">
-        </form>
-        <script>
-          function hideweeklyfieldset(){
-            let weekDay = document.getElementsByClassName("week");
+    <section onchange="enableSubmit()">
+        <!-- <form name="scheduleform" action="https://us-central1-garden-alpha.cloudfunctions.net/schedule" method="post" target="dummyframe" onsubmit="disableButtons()"> -->
+        <form name="scheduleform" action="http://httpbin.org/post" method="post" target="dummyframe" onsubmit="disableSubmit()">
+          <div class="row">
+            <div class="column">
+              <label for="interval">Interval:</label>
+              <select name="interval" id="interval" onchange="hideweeklyfieldset()">
+                <option value="monthly">Monthly</option>
+                <option value="weekly" selected>Weekly</option>
+                <option value="daily">Daily</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
             
-            if(document.getElementById("interval").value == "weekly"){
-                for(let i=0;i<weekDay.length;i++){
-                    weekDay[i].removeAttribute("disabled");
-                }
-            }else{
-                for(let i=0;i<weekDay.length;i++){
-                    weekDay[i].setAttribute("disabled","1");
-                }
-            }
-          }
-          
-        </script>
+            <div class="column">
+              <fieldset id="timings">
+                <legend>Thresholds</legend>
+
+                <label for="duration">Moisture max:</label>
+                <input type="number" id="high-moisture" name="high-moisture" value="95" min="0" max="100">%<br>
+                <label for="duration">Moisture min: </label>
+                <input type="number" id="low-moisture" name="low-moisture" value="5" min="0" max="100">%<br>
+                <label for="duration">Temperature: ></label>
+                <input type="number" id="temperature" name="temperature" value="5" min="0" max="100">&degC<br>
+              </fieldset>
+              <fieldset id="timings">
+                  <legend>Timing:</legend>
+                  <label for="time">Time:</label>
+                  <input type="time" name="time" value="06:00"><br>
+                  <label for="duration">Duration :</label>
+                  <input type="number" id="duration" name="duration" value="5" min="1">Minutes
+              </fieldset>
+            </div>
+            <div class="column">
+              
+                <fieldset id="weeklyfieldset">
+                  <legend>Weekly Schedule:</legend>
+  
+                  <input class="week" type="checkbox" name="saturday" value="sat" id="sat">
+                  <label for="sat" class="week-label">Saturday</label> <br>
+                  <input class="week" type="checkbox" name="monday" value="mon" id="mon"> 
+                  <label for="mon" class="week-label">Monday</label> <br>
+                  <input class="week" type="checkbox" name="tuesday" value="tue" id="tue"> 
+                  <label for="tue" class="week-label">Tuesday</label> <br>
+                  <input class="week" type="checkbox" name="wednesday" value="wed" id="wed">
+                  <label for="wed" class="week-label">Wednesday</label> <br> 
+                  <input class="week" type="checkbox" name="thursday" value="thu" id="thu"> 
+                  <label for="thu" class="week-label">Thursday</label> <br> 
+                  <input class="week" type="checkbox" name="friday" value="fri" id="fri"> 
+                  <label for="fri" class="week-label">Friday</label> <br>
+                  <input class="week" type="checkbox" name="sunday" value="sun" id="sun">
+                  <label for="sun" class="week-label">Sunday</label> <br> 
+  
+                </fieldset>    
+                
+              </div>
+          </div>
+          <div>
+            <input type="submit" id="submit" value="Save" >
+            <input type="reset"  value="Default" onclick="enableSubmit()">
+          </div>
+        </form>
     </section>
     <footer>
       <p id="date"></p>
