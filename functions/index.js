@@ -6,7 +6,7 @@ let db = admin.firestore();
 
 /********************* Constants **************************/
 //Used for behind the scenes calibrations
-const chip_refresh_interval = 100; //army time notation how long between expected requests by the chip (100 -> 01:00 -> 1 hour)
+const chip_refresh_interval = 60; //minutes between expected requests by the chip
 
 
 /***********************************************/
@@ -25,27 +25,68 @@ exports.exchange = functions.https.onRequest((req, res) => {
     db.collection("schedule").doc("user-stored-schedule").get()
     .then(doc => {
 
-
-      /* 
-      
-      
-      currently only checks whether in correct time. In future, need to add day of the week check/interval check/thresholdcheck 
-      
-      
-      */
-
       let data = doc.data();
       let now = new Date();
       let current_time = now.getHours() * 100 + now.getMinutes(); // gives current army time (eg. 2300 = 11:00pm)
       let schedule_time = parseStringToTime(data.time);         //gives time recorded in schedule in army time
 
       
-      if(true){ //for testing purposes
-      //if( current_time < schedule_time + chip_refresh_interval/2 &&  
-      //    current_time > schedule_time - chip_refresh_interval/2){
+      // if(true){ //for testing purposes
+      //check time and thresholds
+      if( current_time < schedule_time + chip_refresh_interval/2 &&  
+         current_time > schedule_time - chip_refresh_interval/2){
 
-            chip_response = data.duration;
+        if(sensor_data.humidity < data.highMoisture){
+
+          if(sensor_data.temperature > data.temperature){
+
+            if(data.interval=="weekly"){
+
+              if(
+                (now.getDay() == 0 && data.sun) ||
+                (now.getDay() == 1 && data.mon) ||
+                (now.getDay() == 2 && data.tue) ||
+                (now.getDay() == 3 && data.wed) ||
+                (now.getDay() == 4 && data.thu) ||
+                (now.getDay() == 5 && data.fri) ||
+                (now.getDay() == 6 && data.sat)){
+                  chip_response = data.duration;
+                }else{
+                  console.log("wrong week day");
+                }
+
+
+            }else if(data.interval=="monthly"){
+              if(now.getDate()==0){
+
+                chip_response = data.duration;
+
+              }else{
+                console.log("wrong day of the month");
+              }
+            }else{
+
+              chip_response = data.duration;
+
+            }
+            
+
+          }else{
+            console.log("temperature too low");
+          } 
+
+        }else{
+          console.log("moisture too high");
         }
+
+      }else{
+        console.log("wrong time");
+      }
+
+      //if moist too low, water anyway
+      if(sensor_data.humidity < data.lowMoisture) chip_response = data.duration;
+
+      
 
     }).then(()=>{
       console.log("chip response: "+ chip_response);
@@ -92,13 +133,13 @@ exports.schedule = functions.https.onRequest((req, res) => {
   console.log(req.body);
 
   let data = {
-    sat: false,
+    sun: false,
     mon: false,
     tue: false,
     wed: false,
     thu: false,
     fri: false,
-    sun: false,
+    sat: false,
     interval: req.body.interval,
     duration: req.body.duration,
     time: req.body.time,
@@ -109,13 +150,13 @@ exports.schedule = functions.https.onRequest((req, res) => {
   }
 
   //if the options arent selected, these will not be in the request.
-  if('saturday' in req.body)  data.sat = true;
+  if('sunday' in req.body)  data.sun = true;
   if('monday' in req.body)    data.mon = true;
   if('tuesday' in req.body)   data.tue = true;
   if('wednesday' in req.body) data.wed = true;
   if('thursday' in req.body)  data.thu = true;
   if('friday' in req.body)    data.fri = true;
-  if('sunday' in req.body)    data.sun = true;
+  if('saturday' in req.body)    data.sat = true;
 
   //updates schedule
   db.collection("schedule").doc("user-stored-schedule").set(data);

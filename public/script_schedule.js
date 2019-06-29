@@ -35,13 +35,13 @@ function loadForm(d){
     document.getElementById("interval").value=d.interval;
 
     //weekly
-    document.getElementById("sat").checked=d.sat;
+    document.getElementById("sun").checked=d.sun;
     document.getElementById("mon").checked=d.mon;
     document.getElementById("tue").checked=d.tue;
     document.getElementById("wed").checked=d.wed;
     document.getElementById("thu").checked=d.thu;
     document.getElementById("fri").checked=d.fri;
-    document.getElementById("sun").checked=d.sun;
+    document.getElementById("sat").checked=d.sat;
 
     //timings
     document.getElementById("time").value=d.time;
