@@ -27,7 +27,10 @@ exports.exchange = functions.https.onRequest((req, res) => {
 
       let data = doc.data();
       let now = new Date();
-      let current_time = now.getHours() * 100 + now.getMinutes(); // gives current army time (eg. 2300 = 11:00pm)
+      //hardcoded time zones
+      now.setHours( now.getHours() -7 );
+
+      let current_time = (now.getUTCHours()) * 100 + now.getUTCMinutes(); // gives current army time (eg. 2300 = 11:00pm)
       let schedule_time = parseStringToTime(data.time);         //gives time recorded in schedule in army time
 
       
@@ -81,6 +84,7 @@ exports.exchange = functions.https.onRequest((req, res) => {
 
       }else{
         console.log("wrong time");
+        console.log("current time: "+current_time+" // schedule time: "+schedule_time);
       }
 
       //if moist too low, water anyway
