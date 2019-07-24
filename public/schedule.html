@@ -5,8 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>V0.1!!</title>
+
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-auth.js"></script>
 	  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-firestore.js"></script>
+    <script type="text/javascript" src="firebase_init.js"></script>
+
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="script_schedule.js"></script>
     <link rel="stylesheet" href="style.css"> 
@@ -26,8 +30,10 @@
     </header>
     <iframe width="0" height="0" border="0" name="dummyframe" id="preventformredierct"></iframe>
     <section onchange="enableSubmit()">
+        <!-- <form name="scheduleform" action="javascript:writeSchedule()" method="post" target="dummyframe" onsubmit="disableSubmit()"> -->
         <form name="scheduleform" action="https://us-central1-garden-alpha.cloudfunctions.net/schedule" method="post" target="dummyframe" onsubmit="disableSubmit()">
-        <!-- <form name="scheduleform" action="http://httpbin.org/post" method="post" target="dummyframe" onsubmit="disableSubmit()"> -->
+        <!-- <form name="scheduleform" action="https://hookb.in/Dr2LMLKQbyi8V8ElqyWX" method="post" target="dummyframe" onsubmit="disableSubmit()"> -->
+          <input type="hidden" name="token" id="token" value="">
           <div class="row">
             <div class="column">
               <label for="interval">Interval:</label>
@@ -44,12 +50,13 @@
               <fieldset id="thresholds">
                 <legend>Thresholds</legend>
 
-                <label for="temperature">Moisture max:</label>
+                <label for="highMoisture">Moisture max:</label>
                 <input type="number" id="highMoisture" name="highMoisture" value="95" min="0" max="100">%<br>
-                <label for="temperature">Moisture min: </label>
+                <label for="lowMoisture">Moisture min: </label>
                 <input type="number" id="lowMoisture" name="lowMoisture" value="5" min="0" max="100">%<br>
                 <label for="temperature">Temperature: ></label>
                 <input type="number" id="temperature" name="temperature" value="5" min="0" max="100">&degC<br>
+              
               </fieldset>
               <fieldset id="timings">
                   <legend>Timing:</legend>

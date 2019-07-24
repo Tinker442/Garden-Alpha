@@ -10,7 +10,7 @@ Palm Leaf:            #649748
 body {
   background: rgb(64, 73, 63);
   background-image: url("vegetable-garden.jpg"); 
-  font-family: "Times New Roman", Times, serif;
+  font-family:  Arial, Helvetica, sans-serif;
 }
 header {
   background: black;
@@ -38,21 +38,42 @@ h1 {
 p {
   font-weight: bold;
 }
+pre {
+  font: 17px arial, sans-serif;
+
+
+}
 img {
   max-width:75%;
   max-height:75%;
-  padding: 50px;
+  padding: 10px;
   border-radius: 8px;
 }
 section {
   padding:10px;
   background: rgb(150, 150, 150);
-  color: black;
   display: absolute;
   box-shadow: 0px 0px 50px 5px rgba(0,0,0,1);
+  border: 10px solid black;
 }
 button {
   background: gray;
   border: ridge;
   color: white;
+}
+
+.row {
+    
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.column{
+  flex-grow: 1;
+  
+  min-width: 320px;
+  width: 50%;
+  text-align: left;
+
 }

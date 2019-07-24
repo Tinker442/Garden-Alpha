@@ -6,31 +6,46 @@ window.onload = function(){
     document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
 
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyBr5PUPdNMvShPOOw6w4JXSxdzG0H9jDGw",
-        authDomain: "garden-alpha.firebaseapp.com",
-        databaseURL: "https://garden-alpha.firebaseio.com",
-        projectId: "garden-alpha",
-        storageBucket: "garden-alpha.appspot.com",
-        messagingSenderId: "1069796650629",
-        appId: "1:1069796650629:web:e245464aec8dedae"
-        };
-        //Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        
-        //Snapshot of the Database
-        db.collection("schedule").doc("user-stored-schedule").get().then(doc => {
-            let dataHold = doc.data();
-            console.log(dataHold);
-            loadForm(dataHold);
-
-        }).then(function(){
-            hideweeklyfieldset();
+    //checks to see if user is signed in
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // User is signed in.
+            // var displayName = user.displayName;
+            // var email = user.email;
+            // var emailVerified = user.emailVerified;
+            // var photoURL = user.photoURL;
+            // var isAnonymous = user.isAnonymous;
+            // var uid = user.uid;
+            // var providerData = user.providerData;
+            addToken();
+            getDatabase();
+            console.log(user);
+        } else {
+            console.log('user not signed in');
+            // No user is signed in.
+        }
         });
-        
 }
 
+function addToken(){
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+        document.getElementById("token").value = idToken;
+      });
+}
+
+//loads schedule database
+function getDatabase(){
+    //Snapshot of the Database
+    db.collection("schedule").doc("user-stored-schedule").get().then(doc => {
+        let dataHold = doc.data();
+        // console.log(dataHold);
+        loadForm(dataHold);
+
+    }).then(function(){
+        hideweeklyfieldset();
+    });
+}
+//populates form with stored schedule (in d)
 function loadForm(d){
     document.getElementById("interval").value=d.interval;
 

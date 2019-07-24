@@ -8,7 +8,6 @@ let db = admin.firestore();
 //Used for behind the scenes calibrations
 const chip_refresh_interval = 60; //minutes between expected requests by the chip
 
-
 /***********************************************/
 
 
@@ -133,6 +132,7 @@ return out;
 
 }
 
+
 exports.schedule = functions.https.onRequest((req, res) => {
   console.log(req.body);
 
@@ -150,7 +150,6 @@ exports.schedule = functions.https.onRequest((req, res) => {
     temperature: req.body.temperature,
     lowMoisture: req.body.lowMoisture,
     highMoisture: req.body.highMoisture,
-
   }
 
   //if the options arent selected, these will not be in the request.
@@ -162,8 +161,26 @@ exports.schedule = functions.https.onRequest((req, res) => {
   if('friday' in req.body)    data.fri = true;
   if('saturday' in req.body)    data.sat = true;
 
+  console.log(data);
   //updates schedule
   db.collection("schedule").doc("user-stored-schedule").set(data);
-
   res.status(200).send(data);
+
+  // console.log(req.body.token);
+  // admin.auth().verifyIdToken(req.body.token)
+  // .then(function(decodedToken) {
+  //   console.log("token verified");
+  //   // let uid = decodedToken.uid;
+  //   req.user = decodedToken;
+  //   db.collection("schedule").doc("user-stored-schedule").set(data)
+  //   .catch(function(error) {
+  //     console.log("Error getting document:", error);
+  //   });
+  //   // ...
+  // }).then(function(){
+  //   res.status(200).send(data);
+  // }).catch(function(error) {
+  //   console.log(error);
+  //   res.status(500)
+  // });
 });

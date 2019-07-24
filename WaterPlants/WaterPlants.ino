@@ -1,7 +1,7 @@
 /*
     This sketch establishes a TCP connection to a firebase exchange service.
-    It sends a sensor data as a string and expects back boolean (0 for dont
-    water, 1 for water, and aynthing else is interpretted as an error and ignored)
+    It sends a sensor data as a string and expects back an integer for minutes to water
+    (if it is less than or equal to 0, dont water)
 */
 
 #ifndef STASSID
